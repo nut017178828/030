@@ -1,50 +1,25 @@
 <?php
-$strAccessToken = "rxrT4emHTKZeCDN4pdozuupbWzZt67Da+k7w019mujt/wrs+6BF1y7vQg44lrTwwTr/VcoEAYrHO+Lgylq32RlPv6HoALCQbfNLZRz2CmFxLzwAHlsz07dZmPcfj08ifmcnH74bNNNcm7dbstjr4qgdB04t89/1O/w1cDnyilFU=";
-$content = file_get_contents('php://input');
-$arrJson = json_decode($content, true);
-$strUrl = "https://api.line.me/v2/bot/message/reply";
-$_userId = $arrJson['events'][0]['source']['userId'];
-$_msg = $arrJson['events'][0]['message']['text'];
-$arrHeader = array();
-$arrHeader[] = "Content-Type: application/json";
-$arrHeader[] = "Authorization: Bearer {$strAccessToken}";
-$filename = 'text.txt';
-if (file_exists($filename)) {
-  $myfile = fopen('text.txt', "w+") or die("Unable to open file!");
-  fwrite($myfile, $_msg);
-  fclose($myfile);
-} else {
-  $myfile = fopen('text.txt', "x+") or die("Unable to open file!");
-  fwrite($myfile, $_msg);
-  fclose($myfile);
-}
-if($arrJson['events'][0]['message']['text'] == "สวัสดี"){
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "สวัสดี ID ของคุณคือ ".$arrJson['events'][0]['source']['userId'];
-}else if($arrJson['events'][0]['message']['text'] == "Stop"){
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "Bot : หยุด";
-}else{
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "Bot :ไม่เข้าใจคำสั่ง";
-}
- 
- 
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$strUrl);
-curl_setopt($ch, CURLOPT_HEADER, false);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $arrHeader);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrPostData));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-$result = curl_exec($ch);
-curl_close ($ch);
 
-?>
+// example: https://github.com/onlinetuts/line-bot-api/blob/master/php/example/chapter-01.php
+
+include ('line-bot-api/php/line-bot.php');
+
+$channelSecret = 'fa2bd15c0c656b56fadfbbedbc1341f5';
+$access_token  = 'rxrT4emHTKZeCDN4pdozuupbWzZt67Da+k7w019mujt/wrs+6BF1y7vQg44lrTwwTr/VcoEAYrHO+Lgylq32RlPv6HoALCQbfNLZRz2CmFxLzwAHlsz07dZmPcfj08ifmcnH74bNNNcm7dbstjr4qgdB04t89/1O/w1cDnyilFU=';
+
+$bot = new BOT_API($channelSecret, $access_token);
+	
+if (!empty($bot->isEvents)) {
+		
+	$bot->replyMessageNew($bot->replyToken, json_encode($bot->message));
+
+	if ($bot->isSuccess()) {
+		echo 'Succeeded!';
+		exit();
+	}
+
+	// Failed
+	echo $bot->response->getHTTPStatus . ' ' . $bot->response->getRawBody(); 
+	exit();
+
+}
