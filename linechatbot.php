@@ -6,9 +6,9 @@ use \LINE\LINEBot;
 
 require(“phpMQTT.php”);
 
-$mqtt = new phpMQTT(“www.yourmqttserver.com”, 1883, “phpMQTT Pub Example”); //เปลี่ยน www.yourmqttserver.com ไปที่ mqtt server ที่เราสมัครไว้นะครับ
+$mqtt = new phpMQTT(“dashboard.heroku.com/apps/linebotsupanat”, 1883, “phpMQTT Pub Example”); //เปลี่ยน www.yourmqttserver.com ไปที่ mqtt server ที่เราสมัครไว้นะครับ
 
-$token = “your line messaging api token”; //นำ token ที่มาจาก line developer account ของเรามาใส่ครับ
+$token = “rxrT4emHTKZeCDN4pdozuupbWzZt67Da+k7w019mujt/wrs+6BF1y7vQg44lrTwwTr/VcoEAYrHO+Lgylq32RlPv6HoALCQbfNLZRz2CmFxLzwAHlsz07dZmPcfj08ifmcnH74bNNNcm7dbstjr4qgdB04t89/1O/w1cDnyilFU=”; //นำ token ที่มาจาก line developer account ของเรามาใส่ครับ
 
 $httpClient = new CurlHTTPClient($token);
 $bot = new LINEBot($httpClient, [‘channelSecret’ => $token]);
