@@ -18,9 +18,31 @@
 
 require_once('LINEBotTiny.php');
 require('pub.php');
+$content = file_get_contents('php://input');
+$arrJson = json_decode($content, true);
+ 
+$strUrl = "https://api.line.me/v2/bot/message/reply";
+ 
+$arrHeader = array();
+$arrHeader[] = "Content-Type: application/json";
+$arrHeader[] = "Authorization: Bearer {$channelAccessToken}";
 
 $channelAccessToken = 'rxrT4emHTKZeCDN4pdozuupbWzZt67Da+k7w019mujt/wrs+6BF1y7vQg44lrTwwTr/VcoEAYrHO+Lgylq32RlPv6HoALCQbfNLZRz2CmFxLzwAHlsz07dZmPcfj08ifmcnH74bNNNcm7dbstjr4qgdB04t89/1O/w1cDnyilFU=';
 $channelSecret = 'fa2bd15c0c656b56fadfbbedbc1341f5';
+if($arrJson['events'][0]['message']['text'] == "สวัสดี")
+  {
+  $arrPostData = array();
+  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+  $arrPostData['messages'][0]['type'] = "text";
+  $arrPostData['messages'][0]['text'] = "สวัสดี ID คุณคือ ".$arrJson['events'][0]['source']['userId'];
+  }
+else if($arrJson['events'][0]['message']['text'] == "ชื่ออะไร")
+  {
+  $arrPostData = array();
+  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+  $arrPostData['messages'][0]['type'] = "text";
+  $arrPostData['messages'][0]['text'] = "ฉันยังไม่มีชื่อนะ";
+  }
 
 $client = new LINEBotTiny($channelAccessToken, $channelSecret);
 foreach ($client->parseEvents() as $event) {
