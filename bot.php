@@ -28,13 +28,6 @@ if (!is_null($events['events'])) {
 				'replyToken' => $replyToken,
 				'messages' => [$messages],
 			];
-			//มีปัญหา ลบ
-			$url = 'https://api.line.me/v2/bot/message/push';
-      				$data = [
-        			'to' => 'Udaa9fffac1abba143e020ee7e673aa36',
-        		'messages' => [$messages],
-     			 ];
-			//มีปัญหา ลบ
 			$post = json_encode($data);
 			$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
 
