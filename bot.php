@@ -15,14 +15,7 @@ if (!is_null($events['events'])) {
 			$text = $event['message']['text'];
 			// Get replyToken
 			$replyToken = $event['replyToken'];
-  			if ( $event['type'] == 'message' ) 
-  			{
-   			if( $event['message']['type'] == 'text' )
-  			 {
- 				  $text = $event['message']['text'];
-    				$reply_message = 'ระบบได้รับข้อความ ('.$text.') ของคุณแล้ว';
-   			}
-			
+
 			// Build message to reply back
 			$messages = [
 				'type' => 'text',
@@ -34,7 +27,6 @@ if (!is_null($events['events'])) {
 			$data = [
 				'replyToken' => $replyToken,
 				'messages' => [$messages],
-				
 			];
 			$post = json_encode($data);
 			$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
@@ -49,7 +41,6 @@ if (!is_null($events['events'])) {
 			curl_close($ch);
 
 			echo $result . "\r\n";
-			}
 		}
 	}
 }
