@@ -15,7 +15,7 @@ foreach ($client->parseEvents() as $event) {
                 case 'text':
 
                     getMqttfromlineMsg($message['text']);
-                    $mixmsg = '[BOT] > '. $message['text'];
+                    $mixmsg = 'ท่านได้สั่ง > '. $message['text'];
 
                     $client->replyMessage(array(
                         'replyToken' => $event['replyToken'],
