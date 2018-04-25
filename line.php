@@ -37,6 +37,5 @@ foreach ($client->parseEvents() as $event) {
             break;
     }
 };
-echo "1212312121";
 ?>
 
