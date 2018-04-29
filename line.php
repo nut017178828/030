@@ -38,6 +38,6 @@ foreach ($client->parseEvents() as $event) {
     }
 
 };
-    echo "5678"
 ?>
+    echo "5678"
 
